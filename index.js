@@ -1,3 +1,5 @@
+//Simulador de carga de empleados que calcula los años de aporte restante y los filtra a todos los que sean menores de 30 años.
+
 // Funcion para solicitar informacion al usuario
 function solicitarInformacion(mensaje) {
     return prompt(mensaje);
@@ -12,6 +14,23 @@ const validarSexo = (sexo) => {
 const calcularAnosAporteRestantes = (edad, sexo) => {
     const añosJubilacion = (sexo === 'masculino') ? 65 : 55;
     return añosJubilacion - edad;
+};
+
+// Funcion para filtrar una lista de personas por edad
+const filtrar = (comparador, lista) => {
+    const result = [];
+    for (const elem of lista) {
+        if (comparador(elem)) {
+            result.push(elem);
+        }
+    }
+    return result;
+};
+
+// Funcion para validar si una persona es menor que cierta edad
+const filtroEdad = (edad) => {
+    const filtro = (persona) => persona.edad < edad;
+    return filtro;
 };
 
 // Crear un objeto de persona
@@ -69,8 +88,11 @@ const main = () => {
         listaPersonas.push(crearPersona());
     }
 
-    // Mostrar los detalles de todas las personas
-    mostrarDetallesPersonas(listaPersonas);
+    // Filtrar personas menores de 30 años
+    const personasMenoresDe30 = filtrar(filtroEdad(30), listaPersonas);
+
+    // Mostrar los detalles de las personas filtradas
+    mostrarDetallesPersonas(personasMenoresDe30);
 };
 
 // Llamar a la funcion principal para comenzar el simulador
